@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
 # 🐍 Snakebite Antidote Prediction System
 
 This repository contains the implementation of a **Snakebite Antidote Prediction System** developed using the **Django web framework**. The project is part of a health-tech initiative that assists medical professionals in identifying appropriate antidotes based on user inputs such as snake type, symptoms, and severity level.
@@ -9,6 +13,10 @@ To build a web-based application that:
 - Predicts the most suitable antidote for a given snakebite scenario.
 - Provides users with intuitive input forms and real-time prediction.
 - Supports medical aid in rural or emergency settings using minimal infrastructure.
+<<<<<<< HEAD
+=======
+- Leverages **CNN (Convolutional Neural Networks)** for better accuracy in severity prediction based on input features.
+>>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
 
 ---
 
@@ -16,7 +24,13 @@ To build a web-based application that:
 - **Backend**: Django (Python)
 - **Frontend**: HTML5, CSS3, Bootstrap
 - **Database**: SQLite
+<<<<<<< HEAD
 - **Machine Learning (Optional/Planned)**: scikit-learn (for severity prediction - future scope)
+=======
+- **Machine Learning**:  
+  - scikit-learn (initial model)  
+  - **CNN (Convolutional Neural Network)** implemented using TensorFlow/Keras for severity level prediction
+>>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
 
 ---
 
@@ -24,6 +38,10 @@ To build a web-based application that:
 - User-friendly **web interface** for entering snakebite details
 - Displays relevant **antidote information** instantly
 - Fully responsive and **mobile-friendly design**
+<<<<<<< HEAD
+=======
+- **CNN-based model** for more accurate severity prediction
+>>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
 - Modular Django structure for scalability and maintenance
 
 ---
@@ -64,6 +82,10 @@ snakebite-kaushal/
 │   ├── templates/        # HTML templates
 │   ├── static/           # CSS, JS files
 │   ├── views.py          # Business logic
+<<<<<<< HEAD
+=======
+│   ├── cnn_model/        # CNN model files (Keras/TensorFlow)
+>>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
 │   └── urls.py           # URL routing
 ├── manage.py
 ├── db.sqlite3            # Default database
@@ -78,9 +100,15 @@ snakebite-kaushal/
 ---
 
 ## 🧠 Future Scope
+<<<<<<< HEAD
 - Integrate machine learning to **predict severity levels**
 - Support for **voice-input** or offline detection
 - Add real-world dataset for training
+=======
+- Expand the **CNN model** with more training data for better prediction
+- Support for **voice-input** or offline detection
+- Add real-world dataset for enhanced accuracy
+>>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
 - Deploy on cloud (Render, Railway, Heroku, etc.)
 
 ---
@@ -97,4 +125,8 @@ This project is open-source and available for academic use.
 
 ---
 
+<<<<<<< HEAD
 **Feel free to fork, improve, and contribute!**
+=======
+**Feel free to fork, improve, and contribute!**
+>>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
