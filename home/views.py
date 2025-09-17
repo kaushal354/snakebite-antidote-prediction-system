@@ -6,9 +6,13 @@ import glob
 import re
 import keras
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from django.http import JsonResponse
+from geopy.geocoders import Nominatim
+import google.generativeai as genai
+from django.conf import settings
 
 
-model_path=r"D:\Projects\projectsnake\snakebite\snakebite\model\project_gray_scale.h5"
+model_path=r"C:\Users\kaushal prasad\Downloads\Projects Latest changes\projectsnake\snakebite\snakebite\model\project_gray_scale.h5"
 
 model=keras.models.load_model(model_path)
 import sqlite3
@@ -26,6 +30,61 @@ import keras.utils as image
 from django.core.files.storage import FileSystemStorage
 predication=0
 from .models import Hospital
+
+@csrf_exempt
+def chatbot(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message')
+        if user_message:
+            try:
+                genai.configure(api_key=settings.GEMINI_API_KEY)
+                model = genai.GenerativeModel('gemini-2.5-flash')
+                prompt = f"""You are an expert on snakebites. Your purpose is to answer questions related to snakebites, first aid, and medical treatment for snakebites in India. You can also provide information about the three snakes this application can identify: Indian Cobra, Russell's Viper, and Python. However, you must always include the following disclaimer at the end of every response: 'Disclaimer: This is an AI-generated response. For any medical emergency, please consult a qualified doctor immediately.'
+
+                User question: {user_message}
+
+                Answer:"""
+                response = model.generate_content(prompt)
+                bot_message = response.text
+                return JsonResponse({'message': bot_message})
+
+            except Exception as e:
+                error_message = f"Sorry, I couldn't process your request at the moment. Error: {e}"
+                return JsonResponse({'message': error_message})
+    return JsonResponse({'message': 'Invalid request'}, status=400)
+
+@csrf_exempt
+def get_city_from_coords(request):
+    lat = request.GET.get('lat')
+    lon = request.GET.get('lon')
+    print(f"Latitude: {lat}, Longitude: {lon}")
+    try:
+        geolocator = Nominatim(user_agent="hospital_locator_app")
+        location = geolocator.reverse((lat, lon), exactly_one=True)
+        if location:
+            address = location.raw.get('address', {})
+            print(f"Address: {address}")
+
+            # Always fallback
+            city = (
+                address.get('city')
+                or address.get('town')
+                or address.get('village')
+                or address.get('county')
+                or address.get('state_district')
+                or address.get('state')
+            )
+
+            print(f"City: {city}")
+            return JsonResponse({'city': city, 'address': address})  # keep full address for debugging
+        else:
+            print("No location found for the given coordinates.")
+            return JsonResponse({'city': ''})
+    except Exception as e:
+        print(f"An error occurred during geocoding: {e}")
+        return JsonResponse({'city': ''}, status=500)
+
+
 def homepage1(request):
     global predication
     predication="-1"

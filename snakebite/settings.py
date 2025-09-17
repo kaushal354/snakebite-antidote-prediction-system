@@ -18,17 +18,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR=os.path.join(BASE_DIR,'templates')
 STATIC_DIR=os.path.join(BASE_DIR,'static')
 
-# Quick-start development settings - unsuitab
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=#-g=x+#sqq36sfp9db5dli_56c$qf7b%*bmh=hyaz+#2fj20e'
+SECRET_KEY = 'django-insecure-d&z9j6+j#@5=z$h5m!1!h#&j-l+l-^l#%3z#z#z#z#z#z#z#z#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+GEMINI_API_KEY = "AIzaSyD9lmkLzECJv_Qh5wWHnnGUU-h-hbA_GD0"  # Replace with your Gemini API key
 
 
 # Application definition

@@ -6,21 +6,134 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{%static 'cssHome/style_new.css'%}">
+    <style>
+      .chat-popup {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        border: none;
+        z-index: 9;
+        background-color: #f9f9f9;
+        width: 350px;
+        height: 500px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        /* --- MODIFICATION 1: Add flexbox layout --- */
+        display: flex;
+        flex-direction: column;
+      }
+      .chat-header {
+        padding: 15px;
+        background: #4CAF50;
+        color: white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      .chat-header h4 {
+        margin: 0;
+        font-size: 1.2em;
+      }
+      .close-chat {
+        cursor: pointer;
+        font-size: 1.5em;
+      }
+      .chat-history {
+        /* --- MODIFICATION 2: Change height to flex-grow --- */
+        flex-grow: 1; 
+        overflow-y: auto;
+        padding: 20px;
+        background-color: #e5ddd5;
+      }
+      .chat-form {
+        display: flex;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+      .chat-form input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        margin-right: 10px;
+        font-size: 1em;
+      }
+      .chat-form button {
+        padding: 10px 15px;
+        border: none;
+        background: #4CAF50;
+        color: white;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2em;
+      }
+      .user-message {
+        text-align: right;
+        margin-bottom: 10px;
+      }
+      .bot-message {
+        text-align: left;
+        margin-bottom: 10px;
+      }
+      .message {
+        padding: 10px 15px;
+        border-radius: 20px;
+        display: inline-block;
+        max-width: 80%;
+        word-wrap: break-word;
+      }
+      .user-message .message {
+        background-color: #dcf8c6;
+      }
+      .bot-message .message {
+        background-color: #fff;
+      }
+      .typing-indicator {
+        display: none;
+        padding: 10px;
+        text-align: center;
+      }
+      .typing-indicator span {
+        height: 10px;
+        width: 10px;
+        background-color: #999;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 2px;
+        animation: blink 1.4s infinite both;
+      }
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes blink {
+        0% { opacity: 0.2; }
+        20% { opacity: 1; }
+        100% { opacity: 0.2; }
+      }
+    </style>
   </head>
   <body>
     <header>
       <nav>
-
         <ul>
           <img src="{%static 'cssHome/snake.jpg'%}" alt="" id="snakeimg">
           <li><a href="/home">Home</a></li>
-          <li><a href="home/hospregis">Hospital Registration</a></li>
-          <li><a href="home/me">About</a></li>
-          <li><a href="#">Help</a></li>
+          <li><a href="/home/hospregis">Hospital Registration</a></li>
+          <li><a href="/home/me">About</a></li>
+          <li><a href="#" onclick="openForm(); return false;">Help</a></li>
         </ul>
       </nav>
       <h1 class="header-title">Snake Bite Prediction System</h1>
-
     </header>
     <main>
       <form action="/home/predict" method="post" enctype="multipart/form-data">
@@ -28,10 +141,9 @@
         <input type="file" id="file-input" name="file">
         <button type="submit">Predict</button>
       </form>
-        <button type="submit"> <a style="text-decoration: none;color: black;" href="home/img">Click snap</a></button>
+        <button type="submit"> <a style="text-decoration: none;color: black;" href="/home/img">Click snap</a></button>
       <div id="result">
-        <!-- Result section to be populated with prediction results -->
-            <img id="snake-image" src = "{%static 'css/cobra.png'%}">
+        <img id="snake-image" src = "{%static 'css/cobra.png'%}">
             <h2 id="prediction">Update snake name</h2>
             <p id="prediction-info">
                 <h3><b>Common name: <span style="color:red;">{{cm}}</span></b></h3>
@@ -41,17 +153,78 @@
                 <h3><b>timing takes for fatality:<span style="color:red;"> {{time}}</span></b></h3>
             </p>
             <div id="buttons1">
-
                 <button class="b1" id="about-snake"><a  href="/home/about">About Snake</a></button>
                 <button class="b1" id="first-aid"><a href="/home/firstaid">First Aid</a></button>
                 <button class="b1" id="nearest-hospital"><a href="/home/hospital">Nearest Hospitals</a></button>
                 <button class="b1" id="help"><a href="/home/professionaltreatment">Professional treatment</a></button>
-
             </div>
       </div>
     </main>
     <footer>
       <p>&copy; 2025 Snake Bite Prediction System</p>
     </footer>
+
+    <div class="chat-popup" id="myForm">
+      <div class="chat-header">
+        <h4>Gemini Chatbot</h4>
+        <i class="fas fa-times close-chat" onclick="closeForm()"></i>
+      </div>
+      <div class="chat-history" id="chat-history">
+        <div class="typing-indicator" id="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <form action="/home/chatbot" method="post" class="chat-form" id="chat-form">
+        {% csrf_token %}
+        <input type="text" placeholder="Type message.." name="message" required>
+        <button type="submit" class="btn"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+
+    <script>
+      function openForm() {
+        // When opening, make sure we set the display to 'flex' instead of 'block'
+        document.getElementById("myForm").style.display = "flex";
+      }
+
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+
+      document.getElementById("chat-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const message = event.target.elements.message.value;
+        const chatHistory = document.getElementById("chat-history");
+        const typingIndicator = document.getElementById("typing-indicator");
+        
+        const userMessageDiv = document.createElement("div");
+        userMessageDiv.classList.add("user-message");
+        userMessageDiv.innerHTML = `<div class="message">${message}</div>`;
+        chatHistory.appendChild(userMessageDiv);
+
+        typingIndicator.style.display = "block";
+
+        fetch("/home/chatbot", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": "{{ csrf_token }}"
+          },
+          body: `message=${message}`
+        })
+        .then(response => response.json())
+        .then(data => {
+          typingIndicator.style.display = "none";
+          const botMessageDiv = document.createElement("div");
+          botMessageDiv.classList.add("bot-message");
+          botMessageDiv.innerHTML = `<div class="message">${data.message}</div>`;
+          chatHistory.appendChild(botMessageDiv);
+          chatHistory.scrollTop = chatHistory.scrollHeight;
+        });
+        event.target.elements.message.value = "";
+      });
+    </script>
   </body>
 </html>

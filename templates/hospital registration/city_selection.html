@@ -11,24 +11,80 @@
       <nav>
         <ul>
           <li><a href="/home">Home</a></li>
-          <li><a href="home/hospregis">Hospital Registration</a></li>
-          <li><a href="home/me">About</a></li>
+          <li><a href="/home/hospregis">Hospital Registration</a></li>
+          <li><a href="/home/me">About</a></li>
           <li><a href="#">Help</a></li>
         </ul>
       </nav>
     </header>
     <main>
         <h1>Hospitals in your area</h1>
-        <form action="home/city" method="post" style="display: flex; flex-direction: column; max-width: 500px; margin: auto;" enctype="multipart/form-data" >
+        <form action="/home/city" method="post" style="display: flex; flex-direction: column; max-width: 500px; margin: auto;" enctype="multipart/form-data" >
         <label style="display: flex; align-items: center; margin-bottom: 10px width=30px height=10px;">
             <input type="text" name="city" placeholder="ENTER YOUR CITY NAME">
         </label>
         <input type="submit" value="Submit" style="margin-top: 20px; background-color: #252525; border-radius: 5px; height: fit-content; font-size: 25px; color: wheat; ">
       </form>
 
+      <div class="gps-button">
+        <button type="button" onclick="getLocation()">Use My Location</button>
+      </div>
+
+<script>
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+
+
+function showPosition(position) {
+  var lat = position.coords.latitude;
+  var lon = position.coords.longitude;
+  fetch(`/home/get_city_from_coords?lat=${lat}&lon=${lon}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log("API Response:", data); // Debug
+
+      // Fallbacks: if city missing, try town/village/county/state_district
+      var city = data.city || data.town || data.village || data.county || data.state_district || data.state;
+
+      if (city) {
+        document.getElementsByName("city")[0].value = city;
+      } else {
+        alert("Could not determine your city.");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert("An error occurred while fetching the city.");
+    });
+}
+
+
+function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      alert("User denied the request for Geolocation.");
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Location information is unavailable.");
+      break;
+    case error.TIMEOUT:
+      alert("The request to get user location timed out.");
+      break;
+    case error.UNKNOWN_ERROR:
+      alert("An unknown error occurred.");
+      break;
+  }
+}
+</script>
+
       <div id="result">
         <!-- Result section to be populated with prediction results -->
-            <img id="snake-image" style="  height: 100px;width: 100px;" src = "{%static 'hospRegis/hospital.jpg'%}">
+            <img id="snake-image" style="  height: 100px;width: 100px;" src = "{%static 'hospRegis/hospital.jpg'%}">
             <h3 style="text-align: center; font-size:35px;"><marquee>These hospitals are present in your area</marquee></h3>
             <table  border="5px" style="font-size:25px;border:5px solid lightgray ;" cellpadding="5px">
             <tr>
