@@ -1,132 +1,74 @@
-<<<<<<< HEAD
-=======
+# snakebite-antidote-prediction-system
 
->>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
-# 🐍 Snakebite Antidote Prediction System
+This project is a web-based application built with Django that uses a machine learning model to identify snake species from an uploaded image. Based on the identification, it provides users with crucial information, including first-aid procedures, professional medical treatment guidelines, and details about the snake.
 
-This repository contains the implementation of a **Snakebite Antidote Prediction System** developed using the **Django web framework**. The project is part of a health-tech initiative that assists medical professionals in identifying appropriate antidotes based on user inputs such as snake type, symptoms, and severity level.
+## Features
 
----
+*   **Image-Based Snake Identification:** Upload an image to classify the snake. The model is trained to identify species like the Indian Cobra, Russell's Viper, and Python.
+*   **Information Hub:** Access detailed information about each supported snake species.
+*   **First-Aid Guidance:** Get immediate, snake-specific first-aid instructions after a successful identification.
+*   **Medical Treatment Information:** View guidelines for professional medical treatment corresponding to the identified snakebite.
+*   **Hospital Locator:** A feature to find and register hospitals, helping users quickly locate nearby medical facilities.
+*   **Interactive Chatbot:** An integrated chatbot to assist users with their queries.
 
-## 📌 Project Objective
-To build a web-based application that:
-- Predicts the most suitable antidote for a given snakebite scenario.
-- Provides users with intuitive input forms and real-time prediction.
-- Supports medical aid in rural or emergency settings using minimal infrastructure.
-<<<<<<< HEAD
-=======
-- Leverages **CNN (Convolutional Neural Networks)** for better accuracy in severity prediction based on input features.
->>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
+## Technology Stack
 
----
+*   **Backend:** Python, Django
+*   **Machine Learning:** TensorFlow, Keras, Scikit-learn
+*   **Frontend:** HTML, CSS, JavaScript
+*   **Database:** SQLite
+*   **Libraries:** Pandas, NumPy, Pillow, Geopy
 
-## ⚙️ Technologies Used
-- **Backend**: Django (Python)
-- **Frontend**: HTML5, CSS3, Bootstrap
-- **Database**: SQLite
-<<<<<<< HEAD
-- **Machine Learning (Optional/Planned)**: scikit-learn (for severity prediction - future scope)
-=======
-- **Machine Learning**:  
-  - scikit-learn (initial model)  
-  - **CNN (Convolutional Neural Network)** implemented using TensorFlow/Keras for severity level prediction
->>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
+## Setup and Installation
 
----
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repository-url>
+    cd snakebite
+    ```
 
-## 🚀 Features
-- User-friendly **web interface** for entering snakebite details
-- Displays relevant **antidote information** instantly
-- Fully responsive and **mobile-friendly design**
-<<<<<<< HEAD
-=======
-- **CNN-based model** for more accurate severity prediction
->>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
-- Modular Django structure for scalability and maintenance
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
 
----
+3.  **Install the dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-## 🏁 How to Run This Project
+4.  **Apply database migrations:**
+    ```bash
+    python manage.py migrate
+    ```
 
-### 🔧 Setup Instructions
-```bash
-# 1. Clone the repository
-https://github.com/kaushal354/snakebite-kaushal.git
+5.  **Run the development server:**
+    ```bash
+    python manage.py runserver
+    ```
 
-# 2. Navigate into the project directory
-cd snakebite-kaushal
+6.  Open your web browser and navigate to `http://127.0.0.1:8000` to use the application.
 
-# 3. Create a virtual environment (optional but recommended)
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+## Usage
 
-# 4. Install dependencies
-pip install -r requirements.txt
+1.  From the homepage, select the option to upload an image of a snake.
+2.  The system will process the image and display the identified snake species.
+3.  Based on the result, you can explore sections for:
+    *   **About the Snake:** Detailed information about the species.
+    *   **First-Aid:** Immediate steps to take after a bite.
+    *   **Professional Treatment:** Medical procedures for healthcare professionals.
+4.  Use the hospital locator to find registered medical centers in a specific city.
 
-# 5. Run migrations
-python manage.py migrate
+## Project Structure
 
-# 6. Start the server
-python manage.py runserver
 ```
-
-### 🌐 Access the app
-Visit: `http://127.0.0.1:8000/`
-
----
-
-## 📁 Project Structure
+├───manage.py               # Django's command-line utility
+├───requirements.txt        # Project dependencies
+├───db.sqlite3              # SQLite database
+├───model/                    # Contains the trained ML model (.h5 file)
+├───snakebite/              # Django project configuration
+├───home/                   # Django app for core functionalities
+├───static/                 # Static files (CSS, JS, images)
+└───templates/              # HTML templates for the web pages
 ```
-snakebite-kaushal/
-├── snakebite/            # Main Django app
-│   ├── templates/        # HTML templates
-│   ├── static/           # CSS, JS files
-│   ├── views.py          # Business logic
-<<<<<<< HEAD
-=======
-│   ├── cnn_model/        # CNN model files (Keras/TensorFlow)
->>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
-│   └── urls.py           # URL routing
-├── manage.py
-├── db.sqlite3            # Default database
-└── requirements.txt
-```
-
----
-
-## 📷 Screenshots
-> _Coming Soon_: Add screenshots of your homepage, prediction result, and form page.
-
----
-
-## 🧠 Future Scope
-<<<<<<< HEAD
-- Integrate machine learning to **predict severity levels**
-- Support for **voice-input** or offline detection
-- Add real-world dataset for training
-=======
-- Expand the **CNN model** with more training data for better prediction
-- Support for **voice-input** or offline detection
-- Add real-world dataset for enhanced accuracy
->>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
-- Deploy on cloud (Render, Railway, Heroku, etc.)
-
----
-
-## 👨‍💻 Author
-**Kaushal Prasad**  
-> B.Tech CSE Student, Parul University  
-> Developed during health-tech innovation sprint.
-
----
-
-## 📝 License
-This project is open-source and available for academic use.
-
----
-
-<<<<<<< HEAD
-**Feel free to fork, improve, and contribute!**
-=======
-**Feel free to fork, improve, and contribute!**
->>>>>>> 00ff909d9315f4736f693a3623dd107c216ebec7
