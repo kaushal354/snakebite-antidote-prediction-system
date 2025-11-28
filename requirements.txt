@@ -6,3 +6,4 @@ Pillow
 scikit-learn
 geopy
 google-generativeai
+gunicorn
