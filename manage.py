@@ -3,6 +3,8 @@
 import os
 import sys
 
+import home.sqlite_patch
+
 
 def main():
     """Run administrative tasks."""
