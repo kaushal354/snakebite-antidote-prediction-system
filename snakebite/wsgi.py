@@ -7,8 +7,6 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.1/howto/deployment/wsgi/
 """
 
-import home.sqlite_patch
-
 
 import os
 
