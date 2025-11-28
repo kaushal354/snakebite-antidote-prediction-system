@@ -3,26 +3,23 @@ import sys
 import types
 
 try:
-    # Try normal stdlib first (if available)
-    import sqlite3  # type: ignore
+    import sqlite3  # try stdlib
 except Exception:
-    # Try pysqlite3 fallback
     try:
-        from pysqlite3 import dbapi2 as pysqlite_dbapi  # type: ignore
+        from pysqlite3 import dbapi2 as pysqlite_dbapi
     except Exception:
-        # No fallback available — re-raise original import error to preserve trace
         raise
 
-    # Build a lightweight sqlite3 wrapper module with a dbapi2 attribute
-    sqlite3_wrapper = types.ModuleType("sqlite3")
-    # dbapi2 attribute expected by Django: `from sqlite3 import dbapi2 as Database`
-    sqlite3_wrapper.dbapi2 = pysqlite_dbapi
+    # if pysqlite_dbapi is a module, create a small module for sqlite3 that exposes dbapi2
+    sqlite3_mod = types.ModuleType("sqlite3")
+    sqlite3_mod.dbapi2 = pysqlite_dbapi
 
-    # Copy some helpful convenience attributes (so code expecting them works)
-    for name in ("connect", "paramstyle", "apilevel", "threadsafety"):
-        if hasattr(pysqlite_dbapi, name):
-            setattr(sqlite3_wrapper, name, getattr(pysqlite_dbapi, name))
+    # commonly used top-level helpers that some code expects
+    for attr in ("connect", "apilevel", "threadsafety", "paramstyle"):
+        if hasattr(pysqlite_dbapi, attr):
+            setattr(sqlite3_mod, attr, getattr(pysqlite_dbapi, attr))
 
-    # Register both names so imports of sqlite3 and _sqlite3 resolve properly
-    sys.modules["sqlite3"] = sqlite3_wrapper
+    sys.modules["sqlite3"] = sqlite3_mod
+    # some C extensions try to import _sqlite3 — point it to the real dbapi
     sys.modules["_sqlite3"] = pysqlite_dbapi
+
