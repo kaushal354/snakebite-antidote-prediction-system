@@ -12,7 +12,7 @@ import google.generativeai as genai
 from django.conf import settings
 
 
-model_path=r"C:\Users\kaushal prasad\Downloads\Projects Latest changes\projectsnake\snakebite\snakebite\model\project_gray_scale.h5"
+model_path=r"model/project_gray_scale.h5"
 
 model=keras.models.load_model(model_path)
 import sqlite3
